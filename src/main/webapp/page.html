@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.c3 {
+	left: 50%;
+	width: 550px;
+	height: 600px;
+	margin-left: -300px;
+	margin-top: 100px;
+	border-collapse: collapse;
+	background-color: cadetblue;
+}
+
+.c4 {
+	z-index: 1;
+	margin-top: 150px;
+}
+
+.alert {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 1000;
+	transition: all .3s ease-in-out;
+}
+
+.wrap {
+	position: absolute;
+	z-index: 1002;
+	min-width: 400px;
+	background: #fff;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 4px;
+}
+
+.head {
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid #dedede;
+	padding-left: 10px;
+	color: #333;
+}
+
+.body {
+	padding: 40px 20px;
+	text-align: center;
+}
+
+.foot {
+	height: 50px;
+	text-align: center;
+}
+
+button {
+	margin-right: 20px;
+}
+
+:last-child {
+	margin-right: 0;
+}
+
+#i1 {
+	width: 300px;
+	height: 50px;
+}
+</style>
+<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="vue/vue.min.js"></script>
+<script type="text/javascript">
+	var v1;
+	$(document).ready(function() {
+		v1 = new Vue({
+			el : '#info1',
+			data : {
+				jtpInfo : {
+					leaveId : '',
+					jtpUserId : '',
+					leaveType : '',
+					apTime : '',
+					ccList : '',
+					begTime : '',
+					endTime : '',
+					duration : '',
+					apReason : '',
+					imgAttach : '',
+					oAttach : '',
+					isItPay : '',
+					deputeAo : '',
+					ao : '',
+					aTime : '',
+					apStatue : '',
+					aContent : '',
+					aSource : '',
+					aEmail : '',
+					eExpiry : '',
+				},
+				jtpInfo_list : [],
+				showAlert : false
+			},
+			methods : {
+				detail1 : function() {
+					this.isAdd = true;
+
+				},
+				close1 : function() {
+					this.isAdd = false;
+				},
+				cancel : function() {
+					if (this.cancelBtn) {
+						this.cancelBtn.apply(this.context);
+					}
+					this.close();
+				},
+				sure : function() {
+					alert("ddddddd");
+					this.showAlert = false;
+				},
+				show : function() {
+					this.showAlert = true;
+				},
+				close : function() {
+					this.showAlert = false;
+				},
+				showAlert1 : function() {
+					alert("ddddddd2");
+					this.showAlert = true;
+				},
+				pass1 : function() {
+					alert("pass1");
+					this.showAlert = true;
+				}
+				
+
+			}
+		//method
+
+		}); //vue
+	} //function
+	) //ready
+</script>
+
+</head>
+<body>
+
+	<span align="right">当前用户：王冰 </span>
+	<select name="在职状态">
+		<option value="shipin">在职</option>
+		<option value="yongpin">休假</option>
+	</select>
+	<br>
+	<span> 状态：已登录</span>
+	<br>
+	<span align="right">点击注销：<input type="button" value="注销"></span>
+	<hr margin=2px color="red">
+	<div id="info1" align="center" class="c4">
+		<div>
+			<h3>休假记录</h3>
+		</div>
+		<div>
+			<select name="查询条件">
+				<option value="yingwenming">英文名</option>
+				<option value="zhongwen">中文名</option>
+			</select> <input type="text"> <input type="button" value="查询">
+			&nbsp &nbsp &nbsp &nbsp （起-止） <input type="text">-<input
+				type="text"><input type="button" value="日期查询">
+		</div>
+		<div align="center">
+			<table id="" name="">
+
+				<tr background-color="red">
+					<td>序号</td>
+					<td>员工名称</td>
+					<td>英文名</td>
+					<td>休假类型</td>
+					<td>开始时间</td>
+					<td>结束时间</td>
+					<td>休假天数</td>
+					<td>带薪天数</td>
+					<td>审批人</td>
+					<td>审批状态</td>
+					<td>批量操作</td>
+
+					<td align="center">操作</td>
+					<td><input type="button" value="显示所有信息"></td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>王益</td>
+					<td>cool</td>
+					<td>病假</td>
+					<td>2018-7-1</td>
+					<td>2018-7-4</td>
+					<td>4</td>
+					<td>0</td>
+					<td>张兵</td>
+					<td>未审批</td>
+					<td><input type="checkbox"></td>
+					<td><input type="button" v-on:click="showAlert1()" value="拒绝">&nbsp&nbsp&nbsp
+						<input type="button" v-on:click="detail1" value="详情">&nbsp&nbsp&nbsp
+						<input type="button" v-on:click="pass1" value="批准"></td>
+				</tr>
+			</table>
+
+		</div>
+		<div class="alert" v-if="showAlert">
+			<div class="wrap">
+				<div class="head">请输入拒绝理由</div>
+				<div class="body">
+					<slot>
+					<form>
+						<input id="i1" type="text">
+					</form>
+					</slot>
+				</div>
+				<div class="foot">
+					<div>
+						<button class="btn-base" @click="sure()">确定</button>
+						<button class="btn-gray" @click="cancel()">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- 
+		<div>
+			<img src="img/close1.png" v-on:click="close1"
+				style="float: right; width: 30px;" />
+			<table>
+				<span align="center"><h3>详情</h3></span>
+				<div float="left">
+					<tr>
+						<td>编号：</td>
+						<td><textbox>1231</textbox></td>
+					</tr>
+					<tr>
+						<td>用户id</td>
+						<td><textbox>王已</textbox></td>
+					</tr>
+					<tr>
+						<td>请假类型:</td>
+						<td><select name="RESTtype">
+								<option value="shijia">病假</option>
+								<option value="shijia">事假</option>
+								<option value="chanjia">产假</option>
+								<option value="company">陪产假</option>
+								<option value="qita">其他</option>
+						</select></td>
+					</tr>
+
+					<tr>
+						<td>提交时间:</td>
+						<td><checkbox>2011-20-2</checkbox></td>
+					</tr>
+					<tr>
+						<td>抄送人：</td>
+						<td><textbox>王兵</textbox></td>
+					</tr>
+					<tr>
+						<td>起止时间</td>
+						<td><textbox>2018-2-2</textbox></td>
+						<td>至</td>
+						<td><textbox>2018-2-2</textbox></td>
+					</tr>
+					<tr>
+						<td>总共天数：</td>
+						<td><textbox>2</textbox></td>
+						<td>天</td>
+					</tr>
+					<tr>
+						<td>请假原因：</td>
+						<td><input type="text"></td>
+					</tr>
+					<tr>
+						<td>是否带薪</td>
+						<td><textbox>是</textbox></td>
+
+					</tr>
+					<tr>
+						<td>部门编号</td>
+						<td><textbox>1231</textbox></td>
+
+					</tr>
+				<tr>
+					<td><input type="button" value="批准"></td>&nbsp&nbsp&nbsp&nbsp
+					<td><input type="button" value="拒绝"></td>
+				</tr>
+				</div>
+
+			</table>
+		</div>
+		 -->
+</body>
+
+</html>

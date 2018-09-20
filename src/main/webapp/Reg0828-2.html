@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>注册-凯捷2</title>
+</head>
+
+<link rel="stylesheet" href="layui/css/layui.css" />
+<link rel="stylesheet" href="layui/global.css" />
+<script src="layui/hm.js"></script>
+<link id="layuicss-skincodecss" rel="stylesheet" href="layui/code.css" />
+<link id="layuicss-layer" rel="stylesheet" href="layui/layer.css" />
+<link id="layuicss-laydate" rel="stylesheet" href="layui/laydate.css" />
+
+<style type="text/css">
+td {
+	margin: 15px
+}
+</style>
+<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="vue/vue.min.js"></script>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+	var v1;
+	function initData() {
+		v1 = new Vue({
+			el : '#app1',
+			data : {
+
+				custNow : {
+					cstNo : null,
+					cstName : 'dddd名字',
+					cstSex : '1',
+					cstBdt : null,
+					cstBdtNew : null,
+					cstAds : 'dddd地址',
+					cstLevel : 0,
+					logName : 'logname-name',
+					logPass : 'logpass-pass',
+					logPass2 : 'logpass-pass',
+					logCode:'dddd'
+				}
+			},
+			methods : {
+				reg : function() {
+					//console.log(this);
+					//var url = "regCustomer0824.do" ;
+					var url = "regCustomer0824.do";
+					console.log(this.custNow);
+			
+					$.post(url, this.custNow, function(dd) {
+						console.log(dd);
+						if (dd == "ok") {
+							$("#msgAll").text("注册成功");
+							location.href = "listAllCustomer0827.jsp";
+						} else {
+							$("#msgAll").text("注册失败，请检查");
+						}
+					});
+					console.log("post sent...");
+
+				},
+				refreshImg : function() {
+					$("#code1").attr("src",
+							"getVerifyCodeImage.do?" + Math.random());
+				}
+
+			}
+		})
+
+	}
+
+	$(document)
+			.ready(
+					function() {
+						layui
+								.use(
+										[ 'form', 'layedit', 'laydate' ],
+										function() {
+											var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
+
+											//日期
+											laydate.render({
+												elem : '#date1',
+												type : 'datetime',
+												done:function(data){
+													v1.custNow.cstBdt=data;
+												}
+											});
+											laydate.render({
+												elem : '#date2',
+												type : 'date',
+												done:function(data){
+													v1.custNow.cstBdtNew=data;
+												}
+											});
+											//创建一个编辑器
+											var editIndex = layedit
+													.build('LAY_demo_editor');
+
+											//自定义验证规则
+											form.verify({
+												title : function(value) {
+													if (value.length < 3) {
+														return '标题至少得5个字符啊';
+													}
+												},
+												pass : [ /(.+){6,12}$/,
+														'密码必须6到12位' ],
+												content : function(value) {
+													layedit.sync(editIndex);
+												},
+												numbers1:[/^\d+(\.\d+)?$/]
+											});
+
+											//监听指定开关
+											form
+													.on(
+															'switch(switchTest)',
+															function(data) {
+																layer
+																		.msg(
+																				'开关checked：'
+																						+ (this.checked ? 'true'
+																								: 'false'),
+																				{
+																					offset : '6px'
+																				});
+																layer
+																		.tips(
+																				'温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF',
+																				data.othis)
+															});
+
+											//监听提交
+// 											form.on('submit(demo1)', function(
+// 													data) {
+// // 												layer.alert(JSON
+// // 														.stringify(data.field),
+// // 														{
+// // 															title : '最终的提交信息'
+// // 														})
+// 												return false;
+// 											});
+
+											//表单初始赋值
+											form.val('example', {
+												"username" : "贤心" // "name": "value"
+												,
+												"password" : "123456",
+												"interest" : 1,
+												"like[write]" : true //复选框选中状态
+												,
+												"close" : true //开关状态
+												,
+												"sex" : "女",
+												"desc" : ""
+											})
+
+										});
+						initData();
+					});
+</script>
+
+
+<body>
+
+	<div class="container" style="padding: 5%;">
+		<div id="app1" class="row"
+			style="padding: 20px; width: 650px; float: right; background-color: #F2F2F2;">
+			<form id="f1" class="layui-form layui-form-pane" action="">
+				<table class="center-block table  "
+					style="width: 550px; padding: 10px">
+
+					<tr>
+						<td colspan="2">请输入注册信息</td>
+					</tr>
+					<tr>
+						<td>客户名称</td>
+						<td>
+							<div class="layui-input-block">
+								<input type="text" name="custName" lay-verify="title"
+									v-model:value="custNow.cstName" autocomplete="off"
+									placeholder="请输入客户名称" class="layui-input">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>客户性别</td>
+						<td>
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<input type="radio" name="custSex" value="男" title="男"
+										checked=""> <input type="radio" name="custSex"
+										value="女" title="女">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>出生日期</td>
+						<td>
+							<div class="layui-input-block">
+								<input type="text" name="custBdt" id="date1"
+									v-model:value="custNow.cstBdt" autocomplete="off"
+									class="layui-input">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>出生日期2</td>
+						<td>
+							<div class="layui-input-block">
+								<input type="text" name="custBdtNew" id="date2"
+									v-model:value="custNow.cstBdtNew" autocomplete="off"
+									class="layui-input">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>常用地址</td>
+						<td>
+							<div class="layui-input-block">
+								<input type="text" name="custAds" v-model:value="custNow.cstAds"
+									autocomplete="off" placeholder="请输入地址" class="layui-input">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>用户级别</td>
+						<td>
+							<div class="layui-input-block">
+								<input type="text" name="custLevel" lay-verify="numbers1" 
+									v-model:value="custNow.cstLevel" autocomplete="off"
+									placeholder="请输入级别(数字)" class="layui-input">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>登录名称</td>
+						<td>
+							<div class="layui-input-block">
+								<input type="text" name="logName" lay-verify="title"
+									autocomplete="off" v-model:value="custNow.logName"
+									placeholder="请输入登录名称" class="layui-input">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>登录密码</td>
+						<td>
+							<div class="layui-input-block">
+								<input type="password" name="logPass" placeholder="请输入密码"
+									autocomplete="off" v-model:value="custNow.logPass"
+									class="layui-input">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>重复密码</td>
+						<td>
+							<div class="layui-input-block">
+								<input type="password" name="logPass2" placeholder="请再次输入密码"
+									autocomplete="off" v-model:value="custNow.logPass2"
+									class="layui-input">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>验证码</td>
+						<td>
+							<div class="layui-input-block">
+								<input type="text" name="logCode" lay-verify="title"
+									autocomplete="off" placeholder="请输入验证码"
+									v-model:value="custNow.logCode" class="layui-input">
+							</div> <span id="msgCode"></span> <br> <img
+							src="getVerifyCodeImage.do" id="code1" @click="refreshImg" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div class="layui-input-block">
+								<button class="layui-btn" type="button" lay-filter="demo1"
+									@click="reg">注册</button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" id="msgAll"></td>
+					</tr>
+
+				</table>
+			</form>
+		</div>
+		
+		
+	</div>
+</body>
+</html>

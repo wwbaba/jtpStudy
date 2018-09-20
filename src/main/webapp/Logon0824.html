@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录2018</title>
+		<link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="layui/dist/css/layui.css"  media="all">		
+		<style type="text/css">
+			td{margin: 15px}
+		</style>	
+		<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			$("#code1").bind("click",function(){
+				console.log("------");
+				$("#code1").attr("src","getVerifyCodeImage.do?"+Math.random());
+			});
+		});		
+		function check01(){
+			var f1 = {
+					logName:$("input[name='logName']").val(),
+					logPass:$("input[name='logPass']").val()
+			};
+			 
+			//var f1 = $("#f1").serialize();
+			var url = "logCheck.do";
+			$.post(url,f1,function(data){
+				console.log(data) ;
+				if (data==='success'){
+					$("#msgAll").text("ok") ;			
+				}else{
+					$("#msgAll").text("用户名密码输入错误，请重新输入") ;
+				}
+			})
+		}
+		function checkCode(){
+			var cd1 = $("input[name='logCode']").val();
+			console.log(cd1) ;
+			var url = "logCodeCheck.do" ;
+			var code1 = {"code":cd1};
+			$.get(url,code1,function(data){
+				console.log(cd1) ;
+				if (data==='success'){
+					$("#msgCode").text("ok") ;			
+				}else{
+					$("#msgCode").text("验证码错误，请重新输入") ;
+				}
+			});
+		}
+		</script>
+</head>
+<body>
+	
+	<div class="container" style="padding:5%;">
+	  	<div class="row" style="padding: 20px;width:450px; float:right; background-color: #F2F2F2;" > 
+	<form id="f1" >
+<table  class="center-block table  "   style="width:400px; padding:10px">
+			
+			<tr>
+				<td colspan="2">
+					请输入登录信息
+				</td>
+			</tr>
+			<tr>
+				<td>登录名称</td>
+				<td>
+					<input type="text" name="logName" value="" placeholder="请输入登录名">
+					
+				</td>
+			</tr>
+			<tr>
+				<td>登录密码</td>
+				<td>
+					<input type="password" name="logPass" value="" placeholder="请输入登录密码">
+					
+				</td>
+			</tr>
+			<tr>
+				<td>验证码</td>
+				<td>
+					<input type="text" name="logCode" value="" placeholder="请输入验证码"
+					onblur="javascript:checkCode();"
+					>
+					<span id="msgCode"></span>
+<br>
+					<img src="getVerifyCodeImage.do" id="code1"/>
+				
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="button" value="登录" onclick="javascript:check01();">
+					<a  style="float:right"  href="Reg0828.html">注册新账号</a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" id="msgAll">
+					
+				</td>
+			</tr>
+			
+		</table>
+</form>		
+	</div>
+	</div>
+</body>
+</html>

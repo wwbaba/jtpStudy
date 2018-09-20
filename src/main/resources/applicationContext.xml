@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd  ">
+<!-- 
+customerServices由@Service注解会自动生成
+<bean id="customerServices" class="services0827.CustomerServices">
+</bean>
+由mybatis的spring辅助类org.mybatis.spring.mapper.MapperScannerConfigurer自动生成一个
+dao的实现类
+<bean id="customerDao" class="dao0827.CustomerDao">
+</bean>
+ -->
+<bean id="verifyCodeProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+    <property name="config">
+      <bean class="com.google.code.kaptcha.util.Config">
+        <constructor-arg>
+          <props>
+            <prop key="kaptcha.border">yes</prop>
+            <prop key="kaptcha.border.color">105,179,90</prop>
+            <prop key="kaptcha.border.thickness">1</prop>
+ 
+            <prop key="kaptcha.noise.color">blue</prop>
+ 
+            <prop key="kaptcha.image.width">150</prop>
+            <prop key="kaptcha.image.height">50</prop>
+ 
+            <prop key="kaptcha.session.key">verifyCode</prop>
+ 
+            <!-- <prop key="kaptcha.textproducer.char.string">0123456789abcdefghijklmnopqrst!@#$%^*</prop> -->
+            <prop key="kaptcha.textproducer.char.length">4</prop>
+            <prop key="kaptcha.textproducer.char.space">4</prop>
+ 
+ 
+            <prop key="kaptcha.textproducer.font.size">30</prop>
+            <prop key="kaptcha.textproducer.font.color">blue</prop>
+ 
+          </props>
+        </constructor-arg>
+      </bean>
+    </property>
+  </bean>        
+	<!-- 加载配置文件 -->
+	<!-- 加载配置文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<!-- ***************以下是dataSource 和 Mybatis配置****************** -->
+	<!-- 1. dataSource 代替了mybatis的主配置文件中的xml的数据库连接配置-->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${dataSource.driverClassName}" />
+		<property name="url" value="${dataSource.url}" />
+		<property name="username" value="${dataSource.username}" />
+		<property name="password" value="${dataSource.password}" />
+		<property name="initialSize" value="${dataSource.initialSize}" />
+		<property name="maxActive" value="${dataSource.maxActive}" />
+		<property name="maxIdle" value="${dataSource.maxIdle}" />
+		<property name="minIdle" value="${dataSource.minIdle}" />
+	</bean>
+
+	<!-- 2.  define the SqlSessionFactory  代替了mybatis关于sqlSessionFactory的单例工厂-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 3. 代替了mybatis主配置文件的需要搜寻的各个表的配置文件目录 -->
+		<property name="mapperLocations" value="classpath:sql0827/*.xml"></property>
+	</bean>
+	<!--4. 使用spring提供的mybatis工具类,DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 4.1 指定了mapper的扫描包 -->
+		<property name="basePackage" value="dao0827" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+	<!-- 5. (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<context:component-scan base-package="services0827" /> 	
+</beans>

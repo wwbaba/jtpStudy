@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+<meta charset="utf-8">
+<title>layui</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="layui/css/layui.css" />
+<link id="layuicss-laydate" rel="stylesheet" href="layui/laydate.css" />
+
+<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="vue/vue.min.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+
+<script type="text/javascript">
+	var v1;
+	$(document).ready(function() {
+
+		initData();
+		getData();
+
+	});
+
+	function getData() {
+		var url = "listLeaveInfo.do";
+
+		$.get(url, function(data) {
+			v1.$data.infoLists = data;
+
+			dataConvert();
+			console.log(data);
+		}, "json");
+	};
+
+	function dataConvert() {
+		for (var i = 0; i < v1.$data.infoLists.length; i++) {
+
+			var transTime = new Date(v1.$data.infoLists[i].begTime);
+			var transTime2 = new Date(v1.$data.infoLists[i].endTime);
+
+			v1.$data.infoLists[i].begTime = transTime.toLocaleDateString();
+			v1.$data.infoLists[i].endTime = transTime2.toLocaleDateString();
+
+		}
+	};
+	function initData() {
+		v1 = new Vue({
+			el : '#info2',
+			data : {
+				isAdd : true,
+				infoLists : [],
+				jtpInfo : {
+					leaveId : '',
+					jtpUserId : '',
+					jtpUserName : '',
+					jtpUserEname : '',
+					leaveType : '',
+					apTime : '',
+					ccList : '',
+					begTime : '',
+					endTime : '',
+					duration : '',
+					apReason : '',
+					imgAttach : '',
+					oAttach : '',
+					isItPay : '',
+					deputeAo : '',
+					ao : '',
+					aTime : '',
+					apStatue : '',
+					aContent : '',
+					aSource : '',
+					aEmail : '',
+					eExpiry : '',
+					paydays : '',
+				},
+			},
+
+			methods : {
+
+				findBydate : function() {
+
+					if ($("#option2").val == '开始日期') {
+						alert(1);
+						var url = "findByBdate.do";
+						$.post(url, {
+							date1 : $("input[name='date1']").val
+						}, function(data) {
+							v1.$data.infoLists = data;
+							dataConvert();
+						})
+					} else if ($("#option2").val == '结束日期') {
+						var url = "findByEdate.do";
+						$.post(url, {
+							date1 : $("input[name='date1']").val
+						}, function(data) {
+							v1.$data.infoLists = data;
+							dataConvert();
+
+						})
+					}
+
+				},
+
+				findByname : function() {
+
+					var content = {
+						name1 : $("input[name='name1']").val
+					};
+					console.log(content);
+					if (($("#option1").val).equals('中文名')) {
+
+						var url = "findByCname.do";
+						$.post(url, content, function(data) {
+							alert(1);
+							v1.$data.infoLists = data;
+							dataConvert();
+						})
+
+					} else if ($("#option1").val == '英文名') {
+						var url = "findByEname.do";
+						$.post(url, content, function(data) {
+							alert(1);
+							v1.$data.infoLists = data;
+							dataConvert();
+						})
+
+					}
+
+				},
+				checkAlll : function() {
+					var url = "listAllLeaveInfo.do";
+
+					$.post(url, null, function(data) {
+						console.log(data);
+
+						v1.$data.infoLists = data;
+						dataConvert();
+
+					}, "json");
+
+				},
+
+				selectAll : function() {
+
+				},
+				cancelAll : function() {
+
+				},
+				detail1 : function(no) {
+
+					var id = {
+						no : no
+					};
+					var url = "findBydetail.do";
+					$.post(url, id, function() {
+						location.href = "page2.html";
+
+					})
+				},
+				close1 : function() {
+					this.isAdd = false;
+				},
+				reject1 : function() {
+
+				},
+				approve1 : function() {
+
+				},
+
+			},
+		}
+
+		)
+	}
+</script>
+
+</head>
+<body>
+	<form class="layui-form " action="">
+		<label class="layui-form-label">姓名：</label><label
+			class="layui-form-label">娃娃</label>
+		<div class="layui-form-item">
+			<label class="layui-form-label">状态：</label>
+			<div class="layui-input-block">
+				<input name="close" type="checkbox" lay-skin="switch"
+					lay-text="工作中|休假">
+
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit="">点击注销</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</form>
+	<div id="info222">ssssssssssss</div>
+
+
+
+	<div id="info2">
+	mm-ssssssssssss
+		<form   action="">
+			<table>
+				<tr>
+					<td>
+						<h3>休假记录</h3>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="layui-inline">
+							<div class="layui-input-inline">
+
+								<select name="module1" lay-search="" lay-verify="required"
+									id="option1">
+									<option value="中文名">中文名</option>
+									<option value="英文名">英文名</option>
+
+								</select>
+
+							</div>
+						</div>
+					</td>
+					<td class="layui-elem-field site-demo-button">
+						<button v-on:click="findByname"
+							class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">搜索</button>
+					</td>
+					<td><div class="layui-input-inline">
+							<input name="name1" class="layui-input" type="text"
+								autocomplete="off">
+						</div>
+					</td>
+					<td>
+						<div class="layui-inline">
+
+							<div class="layui-input-inline">
+								<select name="module2" lay-search="" lay-verify="required"
+									id="option2">
+									<option value="开始日期">开始日期</option>
+									<option value="结束日期">结束日期</option>
+
+								</select> <input id="date1" name="date1" class="layui-input" type="text"
+									placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="date">
+							</div>
+						</div>
+					</td>
+					<td class="layui-elem-field site-demo-button">
+						<button v-on:click="findBydate"
+							class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">搜索</button>
+					</td>
+					<td class="layui-elem-field site-demo-button">
+						<button
+							class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius"
+							v-on:click="checkAlll">查询全部信息</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+
+		<table class="layui-table">
+			<colgroup>
+				<col width="150">
+				<col width="150">
+				<col width="200">
+				<col>
+			</colgroup>
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>员工编号</th>
+					<th>员工名称</th>
+					<th>英文名</th>
+					<th>休假类型</th>
+					<th>开始时间</th>
+					<th>结束时间</th>
+					<th>休假天数</th>
+					<th>带薪天数</th>
+					<th>审批人</th>
+					<th>审批状态</th>
+					<th>
+						<div class="layui-elem-field site-demo-button">
+							<button class="layui-btn layui-btn-primary layui-btn-radius"
+								v-on:click="selectAll">全选</button>
+							<button class="layui-btn layui-btn-primary layui-btn-radius"
+								v-on:click="cancelAll">取消</button>
+							<button class="layui-btn layui-btn-primary layui-btn-radius"
+								v-on:click="selectAll">全批准</button>
+							<button class="layui-btn layui-btn-primary layui-btn-radius"
+								v-on:click="cancelAll">全拒绝</button>
+						</div>
+					</th>
+					<th>操作</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="(applyInfo,index) in infoLists">
+					<td>{{index+1}}</td>
+					<td>{{applyInfo.jtpUserId}}</td>
+					<td>{{applyInfo.jtpUserName}}</td>
+					<td>{{applyInfo.jtpUserEname}}</td>
+					<td>{{applyInfo.leaveType}}</td>
+					<td>{{applyInfo.begTime}}</td>
+					<td>{{applyInfo.endTime}}</td>
+					<td>{{applyInfo.duration}}</td>
+					<td>{{applyInfo.paydays}}</td>
+					<td>{{applyInfo.ao}}</td>
+					<td>{{applyInfo.apStatue}}</td>
+					<td><input type="checkbox"></td>
+					<td>
+						<div class="layui-btn-group">
+							<button class="layui-btn btn btn-primary btn-lg"
+								v-on:click="approve1" data-toggle="modal"
+								data-target="#myModal1">批准</button>
+							<button class="layui-btn btn btn-primary btn-lg"
+								v-on:click="detail1(applyInfo.s)">详情</button>
+							<button class="layui-btn btn btn-primary btn-lg"
+								v-on:click="reject1" data-toggle="modal" data-target="#myModal2">拒绝</button>
+						</div>
+
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				</div>
+				<div class="modal-body">是否确认拒绝？</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary">确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					<h3>是否确认批准？</h3>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary">确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<script>
+		layui
+				.use(
+						[ 'form', 'layedit', 'laydate' ],
+						function() {
+							var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
+
+							//日期
+							laydate.render({
+								elem : '#date'
+							});
+							laydate.render({
+								elem : '#date1'
+							});
+
+							//创建一个编辑器
+							var editIndex = layedit.build('LAY_demo_editor');
+
+							//自定义验证规则
+							form.verify({
+								title : function(value) {
+									if (value.length < 5) {
+										return '标题至少得5个字符啊';
+									}
+								},
+								pass : [ /(.+){6,12}$/, '密码必须6到12位' ],
+								content : function(value) {
+									layedit.sync(editIndex);
+								}
+							});
+
+							//监听指定开关
+							form.on('switch(switchTest)', function(data) {
+								layer.msg('开关checked：'
+										+ (this.checked ? 'true' : 'false'), {
+									offset : '6px'
+								});
+								layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF',
+										data.othis)
+							});
+
+							//监听提交
+							form.on('submit(demo1)', function(data) {
+								layer.alert(JSON.stringify(data.field), {
+									title : '最终的提交信息'
+								})
+								return false;
+							});
+
+							//表单初始赋值
+							form.val('example', {
+								"username" : "贤心" // "name": "value"
+								,
+								"password" : "123456",
+								"interest" : 1,
+								"like[write]" : true //复选框选中状态
+								,
+								"close" : true //开关状态
+								,
+								"sex" : "女",
+								"desc" : "我爱 layui"
+							})
+
+						});
+	</script>
+
+</body>
+</html>

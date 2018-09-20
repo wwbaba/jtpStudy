@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>日期-凯捷2</title>
+</head>
+
+<link rel="stylesheet" href="layui/css/layui.css" />
+<link rel="stylesheet" href="layui/global.css" />
+<script src="layui/hm.js"></script>
+<link id="layuicss-skincodecss" rel="stylesheet" href="layui/code.css" />
+<link id="layuicss-layer" rel="stylesheet" href="layui/layer.css" />
+<link id="layuicss-laydate" rel="stylesheet" href="layui/laydate.css" />
+
+<style type="text/css">
+td {
+	margin: 15px
+}
+</style>
+<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="vue/vue.min.js"></script>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+var vx1 ;
+var vx2 ;
+$(document).ready(function(){
+layui.use('laydate', function(){
+	  var laydate = layui.laydate;
+	  var startDate = laydate.render({
+	    elem: '#timeStart'
+	    ,max:"2099-12-31"
+	    ,position:"static"
+	    ,done: function(value, date){
+	      endDate.config.min ={  
+	        year:date.year,   
+	        month:date.month-1,   
+	        date: date.date
+	      };   
+	    }
+	  });
+	  var endDate = laydate.render({
+	    elem: '#timeEnd'
+	    ,min:"2019-01-01"
+	    ,value:"2019-02-01"
+	    ,done: function (value, date) {  
+	      startDate.config.max={  
+	        year:date.year,   
+	        month:date.month-1,  
+	        date: date.date
+	      }  
+	    }  
+	  });
+	  vx1 = endDate;
+	  vx2 = laydate.render({
+		  elem: '#test2',
+		  position: 'static',
+		  range: false,
+		  show: true,
+		  showBottom: false,
+		  calendar: true,
+		  value:'2020-01-01' ,
+		  change: function(value, date){ //监听日期被切换
+		    lay('#testView').html(value);
+		  },
+		  done:function(value, date){
+			  alert(value);
+			  alert(date);
+			  alert(this);
+		  }
+		});	  
+	})
+});
+function tx1(){
+	//vx1.config.value = "2020-02-01" ;
+	//$("#timeEnd").val("2020-02-01");
+	$("#timeEnd").val($("#v1").val());
+	
+	
+};
+function tx2(){
+	alert($("#v1").val());
+//	 vx2.config.value = "2020-02-01" ;
+//	 vx2.config.dateTime.year = "2020" ;
+	vx2 = layui.laydate.render({
+		  elem: '#test2',
+		  position: 'static',
+		  range: false,
+		  show: true,
+		  showBottom: false,
+		  calendar: true,
+		  value:$("#v1").val() ,
+		  change: function(value, date){ //监听日期被切换
+		    lay('#testView').html(value);
+		  },
+		  done:function(value, date){
+			  alert(value);
+			  alert(date);
+			  alert(this);
+		  }
+		});	  	 
+ 
+	
+	
+}
+</script>
+
+
+<body>
+
+	<div class="container" style="padding: 5%;">
+	<input type="text"  id="v1" placeholder="2022-09-01" value="2022-09-01">
+	<input type="button" onclick="javascript:tx1()" value="inputs">
+	<!-- 申请时间 -->
+        <div class="layui-inline">
+          <label class="layui-form-label">申请时间</label>
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="timeStart" placeholder=" - ">
+          </div>
+          至
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="timeEnd" placeholder=" - ">
+          </div>
+        </div>
+	
+	</div>
+	<hr/>
+	<div>
+	<input type="button" onclick="javascript:tx2()" value="inputs2">
+	<span id="testView"></span>
+		<div id="test2"></div>
+	 
+	</div>
+</body>
+</html>

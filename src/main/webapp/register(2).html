@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="vue/vue.min.js"></script>
+<link rel="stylesheet" href="layui/css/layui.css" media="all">
+<link rel="stylesheet" href="css/style.css" media="all">
+<script src="js/AllSchool.js"></script>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+	var v1;
+	$(document).ready(function() {
+		v1 = new Vue({
+			el : '#div1',
+			data : {
+				jtp : {
+					user_name : '',
+					ic_no : '',
+					nationality : '',
+					native_place : '',
+					id_type : '',
+					id_number : '',
+					sex : '',
+					name_eng : '',
+					base_address : '',
+					login_name : '',
+					login_password1 : '',
+					login_password2 : '',
+					date_employment : '',
+					date_graduation : '',
+					school : '',
+					major : '',
+					degree : '',
+					phonenumber : '',
+					address_delivery : '',
+					post_entry : '',
+					email_company : '',
+					email_standby : '',
+					group_card : ''
+				}
+			},
+			methods : {
+				reg : function() {
+					var url = "register.do";
+					console.log(this.jtp);
+					$.post(url, this.jtp, function(dd) {
+						location.herf="Main.html"
+					});
+				}
+
+			},
+
+		})
+
+	})
+</script>
+<style>
+label {
+	color: white;
+}
+
+legend {
+	color: white;
+}
+</style>
+<style type="text/css">
+.layui-form-label{color:black}
+</style>
+</head>
+<body>
+	<fieldset class="layui-elem-field layui-field-title"
+		style="margin-top: 20px;">
+		<legend>JTP User Register</legend>
+	</fieldset>
+	<div id="div1" class="layui-main">
+
+		<form class="layui-form" action="">
+
+			<div class="layui-form-item">
+				<div class="layui-inline">
+
+					<label class="layui-form-label" style="width: 100px;">ChineseName</label>
+					<div class="layui-input-inline">
+						<input type="text" name="user_name" lay-verify="title"
+							v-model:value="jtp.user_name" placeholder="请输入中文名字"
+							autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label" style="width: 100px;">EnglishName</label>
+					<div class="layui-input-inline">
+						<input type="text" name="name_eng" lay-verify="required"
+							v-model:value="jtp.name_eng" placeholder="请输入" autocomplete="off"
+							class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label" style="width: 100px;">LoginName</label>
+					<div class="layui-input-inline">
+						<input type="text" name="login_name" id="login_name"
+							lay-verify="required" v-model:value="jtp.login_name"
+							placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<!-- 对号 -->
+				<div class="layui-inline">
+					<i class="layui-icon" id="ri"
+						style="color: green; font-weight: bolder;" hidden></i>
+				</div>
+				<!-- 错号 -->
+				<div class="layui-inline">
+					<i class="layui-icon" id="wr"
+						style="color: red; font-weight: bolder;" hidden>ဆ</i>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label" style="width: 100px;">LoginPass</label>
+					<div class="layui-input-inline">
+						<input type="password" name="login_password1" id="login_password1"
+							lay-verify="pass" v-model:value="jtp.login_password1"
+							placeholder="请输入密码" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
+				</div>
+				<!-- 对号 -->
+				<div class="layui-inline">
+					<i class="layui-icon" id="pri"
+						style="color: green; font-weight: bolder;" hidden></i>
+				</div>
+				<!-- 错号 -->
+				<div class="layui-inline">
+					<i class="layui-icon" id="pwr"
+						style="color: red; font-weight: bolder;" hidden>ဆ</i>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label" style="width: 100px; left: -8%;">ReEnterPassword</label>
+					<div class="layui-input-inline">
+						<input type="password" name="login_password2" id="login_password2"
+							lay-verify="pass" v-model:value="jtp.login_password2"
+							placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<!-- 对号 -->
+				<div class="layui-inline">
+					<i class="layui-icon" id="rpri"
+						style="color: green; font-weight: bolder;" hidden></i>
+				</div>
+				<!-- 错号 -->
+				<div class="layui-inline">
+					<i class="layui-icon" id="rpwr"
+						style="color: red; font-weight: bolder;" hidden>ဆ</i>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">IC-CardNo</label>
+				<div class="layui-input-inline">
+					<input type="text" name="ic_no" lay-verify="required"
+						v-model:value="jtp.ic_no" placeholder="请输入" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">Nationality</label>
+				<div class="layui-input-inline">
+					<select name="nationality" lay-filter="nationality">
+						<option value=""></option>
+						<option value="中国大陆" selected="">中国大陆</option>
+						<option value="中国香港">中国香港</option>
+						<option value="中国澳门">中国澳门</option>
+						<option value="中国台湾">中国台湾</option>
+						<option value="非洲">非洲</option>
+						<option value="加拿大">加拿大</option>
+						<option value="欧洲">欧洲</option>
+						<option value="法国">法国</option>
+						<option value="德国">德国</option>
+						<option value="日本">日本</option>
+						<option value="韩国">韩国</option>
+						<option value="北美">北美</option>
+						<option value="新加坡">新加坡</option>
+						<option value="东南亚">东南亚</option>
+						<option value="南美">南美</option>
+						<option value="英国">英国</option>
+						<option value="美国">美国</option>
+						<option value="西亚">西亚</option>
+						<option value="其他">其他</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">NativePlace</label>
+				<div class="layui-input-inline">
+					<input type="text" name="native_place " lay-verify="required"
+						v-model:value="jtp.native_place " placeholder="请输入"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">ID
+					Type</label>
+				<div class="layui-input-inline">
+					<select name="id_type" lay-filter="id_type">
+						<option value=""></option>
+						<option value="0" selected="">二代身份证</option>
+						<option value="1">港、澳台证件</option>
+						<option value="2">Deutschland</option>
+						<option value="3"></option>
+						<option value="4"></option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">ID
+					Number</label>
+				<div class="layui-input-inline">
+					<input type="text" name="id_number" lay-verify="id_number"
+						v-model:value="jtp.id_number" placeholder="" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">Sex</label>
+				<div class="layui-input-block">
+					<input type="radio" name="sex" value="男" title="男" lay-filter="sex"
+						checked=""> <input type="radio" name="sex" value="女"
+						title="女" lay-filter="sex">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">Base
+					Address</label>
+				<div class="layui-input-inline">
+					<select name="base_address" lay-filter="base_address">
+						<option value=""></option>
+						<option value="0" selected="">中国</option>
+						<option value="1">한국</option>
+						<option value="2">Deutschland</option>
+						<option value="3"></option>
+						<option value="4"></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label" style="width: 100px; left: -7%;">DateEmployment</label>
+					<div class="layui-input-inline">
+						<input type="text" name="date1" id="date"
+							v-model:value="jtp.date_employment" lay-verify="date"
+							placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px; left: -1%;">DateGraduation</label>
+				<div class="layui-input-inline">
+					<input type="text" name="date2" id="date1"
+						v-model:value="jtp.date_graduation" lay-verify="date1"
+						placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<!-- --------School
+			School
+			School
+			School
+			School
+			School
+			
+			---------- -->
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">School</label>
+				<div class="layui-input-inline">
+					<select id="province" name="province" lay-filter="province"></select>
+					<select id="city" name="city" lay-filter="city"></select>
+					 <select id="school" name="school" lay-filter="school"></select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">Major</label>
+				<div class="layui-input-inline">
+					<input type="text" name="major" lay-verify="required"
+						v-model:value="jtp.major" placeholder="请输入" autocomplete="off"
+						class="layui-input" onclick="majorSelect_2()">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">Degree</label>
+				<div class="layui-input-inline">
+					<input type="text" name="degree" lay-verify="required"
+						v-model:value="jtp.degree" placeholder="请输入" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">Phonenumber</label>
+				<div class="layui-input-inline">
+					<input type="tel" name="phonenumber" lay-verify="required|phone"
+						v-model:value="jtp.phonenumber" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px; left: -0.5%;">EmailCompany</label>
+				<div class="layui-input-inline">
+					<input type="text" name="email_company" lay-verify="email"
+						v-model:value="jtp.email_company" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">EmailStandby</label>
+				<div class="layui-input-inline">
+					<input type="text" name="email_standby" lay-verify="email"
+						v-model:value="jtp.email_standby" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px; left: -1%;">AddressDelivery</label>
+				<div class="layui-input-inline">
+					<select name="province" lay-filter="province" class="province">
+						<option value="">请选择省</option>
+					</select> <select name="city" lay-filter="city" disabled>
+						<option value="">请选择市</option>
+					</select> <select name="area" lay-filter="area" disabled>
+						<option value="">请选择县/区</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+
+				<label class="layui-form-label" style="width: 100px;">Post
+					Entry</label>
+				<div class="layui-input-inline">
+					<input type="text" name="post_entry" lay-verify="required"
+						v-model:value="jtp.post_entry" placeholder="请输入"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<!-- 
+			<div class="layui-form-item">
+				<label class="layui-form-label">TeamGroup&Leader</label>
+				<div class="layui-input-inline">
+					<select name="team_group">
+						<option value="">请选择组</option>
+						<option value="浙江" selected="">浙江省</option>
+						<option value="你的工号">江西省</option>
+						<option value="你最喜欢的老师">福建省</option>
+					</select>
+				</div>
+				<div class="layui-input-inline">
+					<select name="team_leader">
+						<option value="">请选组长</option>
+						<option value="杭州">杭州</option>
+						<option value="宁波" disabled="">宁波</option>
+						<option value="温州">温州</option>
+						<option value="温州">台州</option>
+						<option value="温州">绍兴</option>
+					</select>
+				</div>
+			</div>
+ -->
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 100px;">Group
+					Card</label>
+				<div class="layui-input-inline">
+					<select name="group_card" lay-filter="aihao">
+						<option value=""></option>
+						<option value="0" selected="">中国</option>
+						<option value="1">한국</option>
+						<option value="2">Deutschland</option>
+						<option value="3"></option>
+						<option value="4"></option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="demo1">立即注册</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script>
+		layui
+				.use(
+						[ 'form', 'layedit', 'laydate' ],
+						function() {
+							
+							var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
+							
+							//日期
+							laydate.render({
+								elem : '#date',
+								done : function(value, date, endDate) {
+									$('#date').change(); // 一定要加上这句！！！不然没有回调！！！
+									v1.$data.jtp.date_employment = value;
+								}
+							});
+							laydate.render({
+								elem : '#date1',
+								done : function(value, date, endDate) {
+									$('#date1').change(); // 一定要加上这句！！！不然没有回调！！！
+									v1.$data.jtp.date_graduation = value;
+								}
+							});
+
+							//创建一个编辑器
+							var editIndex = layedit.build('LAY_demo_editor');
+
+							//自定义验证规则
+							form.verify({
+								title : function(value) {
+									if (value.length < 5) {
+										return '标题至少得5个字符啊';
+									}
+								},
+								content : function(value) {
+									layedit.sync(editIndex);
+								}
+							});
+
+							//监听指定开关
+							form.on('switch(switchTest)', function(data) {
+								layer.msg('开关checked：'
+										+ (this.checked ? 'true' : 'false'), {
+									offset : '6px'
+								});
+								layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF',
+										data.othis)
+							});
+
+							//监听提交
+							form.on('submit(demo1)', function(data) {
+
+								layer.alert("提交成功，等待审批！");
+								v1.reg();
+								return false;
+							});
+							form.on('select(nationality)', function(data) {
+								var form = layui.form;
+								console.log(data.value);
+								v1.$data.jtp.nationality = data.value;
+							});
+							form.on('select(id_type)', function(data) {
+								var form = layui.form;
+								console.log(data.value);
+								v1.$data.jtp.id_type = data.value;
+							});
+							form.on('select(base_address)', function(data) {
+								var form = layui.form;
+								console.log(data.value);
+								v1.$data.jtp.base_address = data.value;
+							});
+							form.on('select(address_delivery)', function(data) {
+								var form = layui.form;
+								console.log(data.value);
+								v1.$data.jtp.address_delivery += data.value;
+							});
+							form.on('radio(sex)', function(data) {
+								var form = layui.form;
+								console.log(data.value);
+								v1.$data.jtp.sex = data.value;
+							});
+							 
+							form.on('select(province)', function(data) {
+								alert("dd");
+								
+								var form = layui.form;
+					            var selectCity = $("#province").val();
+					            var citylist=city[selectCity];
+					            var cityArray = "";
+					            var citySelectStr = "";
+					            if(citylist!=null){
+					                for(var i=0,len=citylist.length;i<len;i++){
+					                    cityArray = citylist[i];
+					                    citySelectStr = citySelectStr + "<option value='"+cityArray[0]+"'>"+cityArray[1]+"</option>"
+					                }
+					                $("select[name=city]").append(citySelectStr);
+					                layui.select.render("city");
+					            }
+					           
+					            
+					            
+
+							});
+							/*
+				            form.on('select(city)', function(data) {
+								 
+						            
+						            var selectschool = $("#city").val();
+						            var schoolUlStr = "";
+						            var schoolListStr = allschool[selectschool];
+						            for(var i=0,len=schoolListStr.length;i<len;i++){
+						                schoolUlStr = schoolUlStr + "<option >"+schoolListStr[i][2]+"</option>";
+						            }
+						            schoolUlStr = schoolUlStr + "<option value='999'>其它</option>";
+						            $("#school").append(schoolUlStr);
+						            form.render();
+							});						 
+								
+							form.on('select(school)', function(data) {
+								 if($("#school").val()=="999"){
+						                $("#school1").hide();
+						                $("#school2").show();
+						            }
+							});
+							*/
+							//用户名验证
+							$('#login_name').blur(function() {
+								var login_name = $(this).val();
+								//alert(user);
+								var url = "checkLoginName.do";
+								var data = {
+									login_name : login_name
+								}
+								$.post(url, data, function(dd) {
+									if (dd == 1) {
+										$('#ri').removeAttr('hidden');
+										$('#wr').attr('hidden', 'hidden');
+									} else {
+										$('#wr').removeAttr('hidden');
+										$('#ri').attr('hidden', 'hidden');
+										layer.msg('当前用户名已被占用! ')
+									}
+								});
+
+							});
+							$('#login_password1')
+									.blur(
+											function() {
+												//var reg = /^[\w]{6,12}$/;
+												var regex =  /^.*(?=.{6,12})(?=.*\d)(?=.*[A-Z]{1,})(?=.*[a-z]{1,}).*$/;// 数字
+													if ($('#login_password1')
+															.val()
+															.match(regex)
+															) {
+														$('#pri').removeAttr(
+																'hidden');
+														$('#pwr').attr(
+																'hidden',
+																'hidden');
+													} else {
+														$('#pwr').removeAttr(
+																'hidden');
+														$('#pri').attr(
+																'hidden',
+																'hidden');
+														layer.msg('请输入合法密码,数字+大写字母+小写字母,且6位到12位');
+													}
+
+												
+											});
+							$('#login_password2')
+									.blur(
+											function() {
+												if ($('#login_password1').val() != $(
+														'#login_password2')
+														.val()) {
+													$('#rpwr').removeAttr(
+															'hidden');
+													$('#rpri').attr('hidden',
+															'hidden');
+													layer.msg('两次输入密码不一致!');
+												} else {
+													$('#rpri').removeAttr(
+															'hidden');
+													$('#rpwr').attr('hidden',
+															'hidden');
+												}
+												;
+											});
+							$(document).ready(function () {
+								var provinceArray = "";
+						        var provicneSelectStr = "";
+						        var opt = "<option value='' selected = \'selected\'>全部</option>";
+						         
+						        $("select[name=province]").append(opt);
+						        for(var i=0,len=province.length;i<len;i++){
+						            provinceArray = province[i];
+						            provicneSelectStr = provicneSelectStr + "<option value='"+provinceArray[0]+"'>"+provinceArray[1]+"</option>"
+						        }
+						        $("select[name=province]").append(provicneSelectStr);
+						        
+						       // form.render('select');
+						    });
+						});
+	</script>
+
+	<script>
+	</script>
+	<script type="text/javascript" src="address.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		layui.config({
+			base : "./js/" //address.js的路径
+		}).use([ 'layer', 'jquery', "address" ], function() {
+			var layer = layui.layer, $ = layui.jquery, address = layui.address();
+		});
+		layui.render();
+	</script>
+</body>
+</html>
