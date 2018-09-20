@@ -2,6 +2,7 @@ package day0827;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -101,6 +102,10 @@ public class MyLogonManager0824 {
 	@ResponseBody // 是直接返回一个响应字符串，不是一个响应页面
 	
 	public String logCodeCheckNew(String code,HttpServletRequest req) { // 参数是一个单个值
+		System.out.println("--------------------");
+		System.out.println("--------------------" + new Date());
+
+		
 		System.out.println(this);
 		if (code == null) {
 			return "no";
