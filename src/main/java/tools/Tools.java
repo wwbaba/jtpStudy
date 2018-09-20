@@ -20,7 +20,8 @@ public class Tools {
 		int x = min+ (int)( Math.random()* (max-min+1));
 		return x ;
 	}
-		
+	
+	System.out.println("eoroosadfasdf") ;
 	
 	static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS") ;
 	static DateFormat df3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
