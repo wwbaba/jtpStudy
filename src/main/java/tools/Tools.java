@@ -21,7 +21,7 @@ public class Tools {
 		return x ;
 	}
 	
-	System.out.println("eoroosadfasdf") ;
+//	System.out.println("eoroosadfasdf") ;
 	
 	static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS") ;
 	static DateFormat df3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
