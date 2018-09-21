@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao0827.CustomerDao">
+<select id="findByLogNameAndLogPass" parameterType="hashmap" resultType="java.util.HashMap">
+select 
+cst_no cstNo,
+cst_name cstName,
+cst_sex cstSex,
+cst_bdt cstBdt,
+cst_ads cstAds,
+cst_level cstLevel,
+cst_desc cstDesc,
+log_name logName ,
+'********' logPass 
+from t_customer 
+where 
+		log_name = #{logName}
+		and 
+		log_pass = #{logPass} 
+</select>
+<select id="findAll"   resultType="java.util.HashMap">
+	select 
+cst_no cstNo,
+cst_name cstName,
+cst_sex cstSex,
+cst_bdt cstBdt,
+cst_ads cstAds,
+cst_level cstLevel,
+cst_desc cstDesc,
+log_name logName ,
+'********' logPass 
+from t_customer
+
+	
+</select>
+
+
+<select id="findAllCount"   resultType="long">
+	select 
+count(*) 
+from t_customer
+
+	
+</select>
+<select id="findAllForPage" parameterType="hashmap"   resultType="java.util.HashMap">
+	select 
+cst_no cstNo,
+cst_name cstName,
+cst_sex cstSex,
+cst_bdt cstBdt,
+cst_ads cstAds,
+cst_level cstLevel,
+cst_desc cstDesc,
+log_name logName ,
+'********' logPass 
+from t_customer 
+limit #{start},#{end}
+
+	
+</select>
+<select id="findById" parameterType="long" resultType="java.util.HashMap">
+select cst_no cstNo,
+cst_name cstName,
+cst_sex cstSex,
+cst_bdt cstBdt,
+cst_ads cstAds,
+cst_level cstLevel,
+cst_desc cstDesc,
+log_name logName ,
+'********' logPass from t_customer
+	where 
+		cst_no = #{logName}
+
+</select>
+<select id="findByName" parameterType="string" resultType="java.util.HashMap">
+select cst_no cstNo,
+cst_name cstName,
+cst_sex cstSex,
+cst_bdt cstBdt,
+cst_ads cstAds,
+cst_level cstLevel,
+cst_desc cstDesc,
+log_name logName ,
+'********' logPass from t_customer
+	where 
+		cst_name like #{nm}
+
+</select>
+<select id="findByCond" parameterType="hashmap" resultType="java.util.HashMap">
+select cst_no cstNo,
+cst_name cstName,
+cst_sex cstSex,
+cst_bdt cstBdt,
+cst_ads cstAds,
+cst_level cstLevel,
+cst_desc cstDesc,
+log_name logName ,
+'********' logPass from t_customer
+	<where> 
+		<trim  prefixOverrides="and">
+		<if test="cstNo!=null">
+			and cst_no = #{cstNo}
+		</if>
+		<if test="cstName!=null">
+			and cst_no like #{cstName}
+		</if>
+		<if test="cstSex">
+			and cst_sex like #{cstSex}
+		</if>
+		<if test="cstAds">
+			and cst_ads like #{cstAds}
+		</if>
+		<if test="logName">
+			and log_name like #{logName}
+		</if>		
+		</trim>
+	</where>
+</select>
+<delete id="deleteById" parameterType="long"  >
+delete  from t_customer
+	where 
+		cst_no = #{logName}
+
+</delete>
+<insert id="insert" parameterType="hashmap" 
+useGeneratedKeys="true" keyProperty="cstNo" 
+
+>
+insert into t_customer
+( cst_name,cst_sex,cst_bdt,cst_ads,cst_level,cst_desc,log_name,  log_pass )
+values
+(
+#{cstName},
+#{cstSex},
+#{cstBdt},
+#{cstAds},
+#{cstLevel},
+#{cstDesc},
+#{logName},
+#{logPass}
+)
+
+</insert>
+<insert id="insert3" parameterType="day0828.CustomerInfo" 
+useGeneratedKeys="true" keyProperty="cstNo" 
+
+>
+insert into t_customer
+( cst_name,cst_sex,cst_bdt,cst_ads,cst_level,cst_desc,log_name,  log_pass )
+values
+(
+#{cstName},
+#{cstSex},
+#{cstBdt},
+#{cstAds},
+#{cstLevel},
+#{cstDesc},
+#{logName},
+#{logPass}
+)
+
+</insert>
+<insert id="insert2" parameterType="hashmap" 
+useGeneratedKeys="true" keyProperty="cstNo" 
+
+>
+insert into t_customer
+( 
+<trim  suffixOverrides=",">
+<if test="cstName != null">
+cst_name,
+</if>
+<if test="cstSex != null">
+cst_sex,
+</if>
+<if test="cstBdt != null">
+cst_bdt,
+</if>
+<if test="cstAds != null">
+cst_ads,
+</if>
+<if test="cstLevel != null">
+cst_level,
+</if>
+<if test="cstDesc != null">
+cst_desc,
+</if>
+<if test="logName != null">
+log_name,
+</if>
+<if test="logPass != null">  
+log_pass ,
+</if>
+</trim>
+)
+values
+(
+<trim  suffixOverrides=",">
+<if test="cstName != null">
+#{cstName},
+</if>
+<if test="cstSex != null">
+#{cstSex},
+</if>
+<if test="cstBdt != null">
+#{cstBdt},
+</if>
+<if test="cstAds != null">
+#{cstAds},
+</if>
+<if test="cstLevel != null">
+#{cstLevel},
+</if>
+<if test="cstDesc != null">
+#{cstDesc},
+</if>
+<if test="logName != null">
+#{logName},
+</if>
+<if test="logPass != null">
+#{logPass},
+</if>
+</trim>
+)
+
+</insert>
+</mapper>
