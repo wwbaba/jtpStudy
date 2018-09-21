@@ -107,6 +107,11 @@ public class MyLogonManager0824 {
 
 		
 		System.out.println(this);
+		System.out.println("--------------------");
+		System.out.println("-------0921-------------" + new Date());
+
+		
+		System.out.println(this);		
 		if (code == null) {
 			return "no";
 		}
